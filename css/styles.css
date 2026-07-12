@@ -900,3 +900,134 @@ body {
 .hidden {
   display: none !important;
 }
+
+/* Mobile Responsive Overrides */
+@media (max-width: 768px) {
+  .app-container {
+    padding: 10px;
+  }
+  
+  .main-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  .nav-tabs {
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+  }
+
+  .tab-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 12px;
+  }
+
+  .user-status {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .user-status span {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Grid Stackings */
+  .grid-citizen {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .grid-analytics {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .control-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input-box {
+    max-width: 100%;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .filter-group select, 
+  .filter-group button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  /* Transform table into card blocks for mobile */
+  .triage-table, 
+  .triage-table thead, 
+  .triage-table tbody, 
+  .triage-table th, 
+  .triage-table td, 
+  .triage-table tr {
+    display: block;
+  }
+
+  .triage-table thead {
+    display: none; /* Hide header row on mobile */
+  }
+
+  .triage-table tr {
+    border: 1px solid var(--accent-light);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 4px 15px rgba(197, 179, 211, 0.1);
+    overflow: hidden;
+  }
+
+  .triage-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(245, 203, 203, 0.25);
+  }
+
+  .triage-table td:last-child {
+    border-bottom: none;
+    background: rgba(245, 203, 203, 0.1);
+  }
+
+  .actions-cell {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .actions-cell select, 
+  .actions-cell button {
+    flex-grow: 1;
+    margin: 0;
+  }
+
+  .delete-action-btn {
+    padding: 8px 12px;
+    background: rgba(217, 69, 69, 0.1);
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+}
