@@ -1,6 +1,6 @@
 // CrisisDeskAI Frontend Application Logic
-//const API_BASE_URL = 'https://crisisdeskapi.onrender.com/api';
-const API_BASE_URL = 'https://crisisdesk-ai-jczo.onrender.com/api';
+const API_BASE_URL = 'https://crisisdeskapi.onrender.com/api';
+//const API_BASE_URL = 'https://crisisdesk-ai-jczo.onrender.com/api';
 // State Variables
 let currentTab = 'citizen';
 let adminToken = localStorage.getItem('admin_token') || null;
