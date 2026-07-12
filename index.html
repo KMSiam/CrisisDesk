@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CrisisDesk AI - Emergency & Service Triage</title>
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Floating Ambient Lights -->
+  <div class="ambient-light light-1"></div>
+  <div class="ambient-light light-2"></div>
+
+  <div class="app-container">
+    <!-- Navbar Header -->
+    <header class="main-header">
+      <div class="brand">
+        <i class="fa-solid fa-triangle-exclamation brand-icon"></i>
+        <h1>CrisisDesk <span>AI</span></h1>
+      </div>
+      <nav class="nav-tabs">
+        <button class="tab-btn active" data-tab="citizen">
+          <i class="fa-solid fa-bullhorn"></i> Report Emergency
+        </button>
+        <button class="tab-btn" data-tab="analytics" id="btn-tab-analytics">
+          <i class="fa-solid fa-chart-simple"></i> Analytics Hub
+        </button>
+        <button class="tab-btn" data-tab="dispatcher" id="btn-tab-dispatcher">
+          <i class="fa-solid fa-shield-halved"></i> Dispatcher Console
+        </button>
+      </nav>
+      <div class="user-status" id="admin-user-badge">
+        <span class="badge-guest"><i class="fa-solid fa-user"></i> Public Session</span>
+      </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="main-content">
+
+      <!-- SECTION 1: CITIZEN PORTAL -->
+      <section id="tab-citizen" class="tab-pane active">
+        <div class="grid-citizen">
+          <div class="form-card glass-panel">
+            <div class="card-header">
+              <h2>📢 Submit Emergency Report</h2>
+              <p>Reports are translated, categorized, and duplicates are matched automatically in real time.</p>
+            </div>
+            
+            <form id="citizen-report-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="report-name"><i class="fa-solid fa-user-pen"></i> Your Name</label>
+                  <input type="text" id="report-name" placeholder="e.g. Rahim Khan" required>
+                </div>
+                <div class="form-group">
+                  <label for="report-contact"><i class="fa-solid fa-phone"></i> Contact Number</label>
+                  <input type="tel" id="report-contact" placeholder="e.g. 017xxxxxxxx" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="report-location"><i class="fa-solid fa-location-dot"></i> Location / Landmark</label>
+                <input type="text" id="report-location" placeholder="e.g. Mirpur 10, Dhaka (near Metro station)" required>
+              </div>
+
+              <div class="form-group">
+                <label for="report-description">
+                  <i class="fa-solid fa-file-waveform"></i> Emergency Description
+                  <span class="label-help">(Supports Bangla, phonetic Banglish, or English)</span>
+                </label>
+                <textarea id="report-description" rows="5" placeholder="e.g. Mirpur e building er ekta dewul collapsed hoyeche and building e agun lagar somvabona ache. Keu trapped ache." required></textarea>
+              </div>
+
+              <button type="submit" class="submit-btn" id="btn-submit-report">
+                <span class="btn-text">Submit Report</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- TRIAGE RESULTS BOARD (DYNAMIC) -->
+          <div class="triage-result-card glass-panel empty" id="triage-result-section">
+            <div class="empty-state">
+              <i class="fa-solid fa-robot"></i>
+              <h3>AI Triage Dashboard</h3>
+              <p>Submit a report on the left. The live triage details, translation, urgency level, and duplicate checks will render here instantly.</p>
+            </div>
+            <div class="loading-state hidden">
+              <div class="spinner"></div>
+              <h3>Analyzing Report...</h3>
+              <p>Translating Bangla, assessing threat levels, and checking for duplicates.</p>
+            </div>
+            <div class="result-details hidden">
+              <div class="result-header">
+                <span class="category-badge" id="res-category">Fire</span>
+                <span class="urgency-badge" id="res-urgency">Critical</span>
+              </div>
+              
+              <div class="info-block">
+                <h4><i class="fa-solid fa-globe"></i> Detected Language: <span id="res-lang">bn</span></h4>
+              </div>
+
+              <div class="info-block">
+                <h4><i class="fa-solid fa-language"></i> Translated Description (English)</h4>
+                <p class="translated-text" id="res-translation">Checking...</p>
+              </div>
+
+              <div class="info-block">
+                <h4><i class="fa-solid fa-circle-info"></i> AI Summary</h4>
+                <p id="res-summary">Checking...</p>
+              </div>
+
+              <div class="info-block">
+                <h4><i class="fa-solid fa-kit-medical"></i> Suggested Action</h4>
+                <p id="res-action">Checking...</p>
+              </div>
+
+              <div class="duplicate-alert" id="res-duplicate-block">
+                <i class="fa-solid fa-clone"></i>
+                <div>
+                  <strong>Duplicate Incident Flagged!</strong>
+                  <p>Another report with similar details was submitted recently. Linked to Incident <span id="res-duplicate-id">#ID</span>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: ANALYTICS HUB -->
+      <section id="tab-analytics" class="tab-pane">
+        <div class="kpi-grid">
+          <div class="kpi-card glass-panel">
+            <i class="fa-solid fa-folder-open kpi-icon text-purple"></i>
+            <div>
+              <h3>Total Reports</h3>
+              <p class="kpi-value" id="kpi-total">0</p>
+            </div>
+          </div>
+          <div class="kpi-card glass-panel">
+            <i class="fa-solid fa-triangle-exclamation kpi-icon text-red"></i>
+            <div>
+              <h3>Critical Alerts</h3>
+              <p class="kpi-value" id="kpi-critical">0</p>
+            </div>
+          </div>
+          <div class="kpi-card glass-panel">
+            <i class="fa-solid fa-hourglass-half kpi-icon text-blue"></i>
+            <div>
+              <h3>Pending Triage</h3>
+              <p class="kpi-value" id="kpi-pending">0</p>
+            </div>
+          </div>
+          <div class="kpi-card glass-panel">
+            <i class="fa-solid fa-circle-check kpi-icon text-green"></i>
+            <div>
+              <h3>Resolved Cases</h3>
+              <p class="kpi-value" id="kpi-resolved">0</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-analytics">
+          <!-- Urgency Breakdown -->
+          <div class="chart-card glass-panel">
+            <h2><i class="fa-solid fa-layer-group"></i> Urgency Distribution</h2>
+            <div class="chart-container" id="urgency-chart-box">
+              <!-- Rendered Dynamically -->
+            </div>
+          </div>
+
+          <!-- Category Breakdown -->
+          <div class="chart-card glass-panel">
+            <h2><i class="fa-solid fa-server"></i> Category Breakdown</h2>
+            <div class="chart-container" id="category-chart-box">
+              <!-- Rendered Dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: DISPATCHER CONSOLE (ADMIN) -->
+      <section id="tab-dispatcher" class="tab-pane">
+        
+        <!-- ADMIN LOGIN BLOCK -->
+        <div class="login-wrapper" id="admin-login-box">
+          <div class="login-card glass-panel">
+            <h2><i class="fa-solid fa-lock"></i> Dispatcher Access</h2>
+            <p>Please enter your administrative credentials to log in and access status triaging tools.</p>
+            <form id="admin-login-form">
+              <div class="form-group">
+                <label for="login-email">Admin Email</label>
+                <input type="email" id="login-email" placeholder="e.g. admin@crisisdesk.com" required>
+              </div>
+              <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Password" required>
+              </div>
+              <button type="submit" class="submit-btn">Login Securely</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- TRIAGE MANAGEMENT PANEL (HIDDEN BY DEFAULT) -->
+        <div class="triage-panel hidden" id="admin-triage-panel">
+          <div class="triage-controls glass-panel">
+            <div class="control-row">
+              <div class="search-input-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="triage-search" placeholder="Search by location, descriptions, summaries...">
+              </div>
+              
+              <div class="filter-group">
+                <select id="filter-urgency">
+                  <option value="">All Urgencies</option>
+                  <option value="critical">Critical</option>
+                  <option value="high">High</option>
+                  <option value="medium">Medium</option>
+                  <option value="low">Low</option>
+                </select>
+
+                <select id="filter-category">
+                  <option value="">All Categories</option>
+                  <option value="fire">Fire</option>
+                  <option value="medical">Medical</option>
+                  <option value="accident">Accident</option>
+                  <option value="crime">Crime</option>
+                  <option value="flood">Flood</option>
+                  <option value="utility">Utility</option>
+                  <option value="infrastructure">Infrastructure</option>
+                  <option value="other">Other</option>
+                </select>
+
+                <button class="logout-btn" id="btn-admin-logout">
+                  <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="triage-table-card glass-panel">
+            <table class="triage-table">
+              <thead>
+                <tr>
+                  <th>Incident Details</th>
+                  <th>Triage Status</th>
+                  <th>Language / Location</th>
+                  <th>AI Summary & Suggested Actions</th>
+                  <th>Incident Handling</th>
+                </tr>
+              </thead>
+              <tbody id="triage-table-body">
+                <!-- Dynamically generated rows -->
+              </tbody>
+            </table>
+            <div class="table-empty hidden" id="triage-table-empty">
+              <i class="fa-solid fa-inbox"></i>
+              <p>No active reports match the selected filters.</p>
+            </div>
+            <div class="table-pagination">
+              <button id="btn-prev-page" class="pag-btn" disabled><i class="fa-solid fa-chevron-left"></i> Prev</button>
+              <span id="txt-page-info">Page 1 of 1</span>
+              <button id="btn-next-page" class="pag-btn" disabled>Next <i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p>&copy; 2026 CrisisDeskAI Triage Center. Deployed and verified on Render.</p>
+    </footer>
+  </div>
+
+  <!-- Custom JS -->
+  <script src="js/app.js"></script>
+</body>
+</html>
