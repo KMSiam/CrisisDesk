@@ -1,5 +1,5 @@
 // CrisisDeskAI Frontend Application Logic
-const API_BASE_URL = 'https://crisisdesk-ai-emqh.onrender.com/api';
+const API_BASE_URL = 'https://crisisdeskapi.onrender.com/api';
 
 // State Variables
 let currentTab = 'citizen';
