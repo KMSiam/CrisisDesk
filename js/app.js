@@ -292,7 +292,11 @@ async function loadTriageReports() {
   if (urgency) params.append('urgency', urgency);
 
   try {
-    const response = await fetch(`${API_BASE_URL}/reports?${params.toString()}`);
+    const response = await fetch(`${API_BASE_URL}/reports?${params.toString()}`, {
+  headers: {
+    'Authorization': `Bearer ${adminToken}`
+  }
+});
     const result = await response.json();
 
     if (!response.ok) throw new Error(result.message);
