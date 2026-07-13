@@ -1032,3 +1032,29 @@ body {
     width: 100%;
   }
 }
+
+/* Password Visibility Toggle */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  padding-right: 44px !important;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 16px;
+  transition: var(--transition-smooth);
+  z-index: 10;
+}
+
+.toggle-password-btn:hover {
+  color: var(--text-main);
+}

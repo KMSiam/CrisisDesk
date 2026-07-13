@@ -21,6 +21,22 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('admin-login-form').addEventListener('submit', handleAdminLogin);
   document.getElementById('btn-admin-logout').addEventListener('click', handleAdminLogout);
   
+  // Password Visibility Toggle
+  const togglePassword = document.getElementById('toggle-password');
+  if (togglePassword) {
+    togglePassword.addEventListener('click', () => {
+      const passwordInput = document.getElementById('login-password');
+      if (passwordInput) {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        
+        // Toggle icon classes
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+      }
+    });
+  }
+  
   // Filter and Search Listeners
   document.getElementById('triage-search').addEventListener('input', debounce(reloadTriageData, 400));
   document.getElementById('filter-urgency').addEventListener('change', reloadTriageData);
