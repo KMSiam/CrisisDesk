@@ -187,6 +187,21 @@ async function loadAnalytics() {
       categoryBox.appendChild(createChartRow(key.replace('_', ' '), count, pct, 'purple'));
     });
 
+    // Draw Status Distribution Chart
+    const statusBox = document.getElementById('status-chart-box');
+    if (statusBox) {
+      statusBox.innerHTML = '';
+      const statuses = ['pending', 'in_review', 'assigned', 'resolved', 'rejected'];
+      const statusColors = { pending: 'blue', in_review: 'orange', assigned: 'purple', resolved: 'green', rejected: 'red' };
+      const statusLabels = { pending: 'Pending', in_review: 'In Review', assigned: 'Assigned', resolved: 'Resolved', rejected: 'Rejected' };
+
+      statuses.forEach(key => {
+        const count = stats.statusBreakdown[key] || 0;
+        const pct = stats.totalReports > 0 ? (count / stats.totalReports) * 100 : 0;
+        statusBox.appendChild(createChartRow(statusLabels[key], count, pct, statusColors[key]));
+      });
+    }
+
   } catch (error) {
     console.error('Failed to load dashboard statistics:', error);
   }
